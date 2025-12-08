@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太平禪意之旅：五連峰與車宿炊煮</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tea': '#4C7F60',
+                        'matcha': '#A8C692',
+                        'clay': '#B5876B',
+                        'mist': '#F7F9F7',
+                        'dark-zen': '#34495E'
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        hand: ['"Nanum Pen Script"', 'cursive'], /* 筆記手寫感 */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F7F9F7;
+        }
+
+        /* 禪意玻璃卡片 (Glassmorphism) */
+        .zen-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+        .zen-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* 動畫效果 (Scroll Reveal - 向上淡入) */
+        .reveal-item {
+            animation: revealUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        @keyframes revealUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* 延遲類別 */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* Tab 切換效果 */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-dark-zen antialiased overflow-x-hidden">
+
+    <header class="relative w-full h-[50vh] min-h-[350px] flex items-center justify-center overflow-hidden bg-tea">
+        <div class="absolute inset-0 z-0 opacity-70">
+             <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1549723238-d748f5727931?q=80&w=2070&auto=format&fit=crop'); opacity: 0.4;"></div>
+        </div>
+        <div class="relative z-10 text-center text-white px-6">
+            <h1 class="text-5xl md:text-6xl font-serif font-bold mb-3 drop-shadow-md reveal-item">
+                太平雲之巔 🍵
+            </h1>
+            <p class="text-xl font-light opacity-90 max-w-xl mx-auto reveal-item delay-1">
+                車宿炊煮・五連峰縱走・共度禪意時光
+            </p>
+            <span class="inline-block mt-4 text-sm bg-white/20 px-3 py-1 rounded-full reveal-item delay-2">
+                12/17 - 12/19 (三至五)
+            </span>
+        </div>
+    </header>
+
+    <section class="max-w-4xl mx-auto px-4 py-8 -mt-16 relative z-20">
+        <div class="zen-card p-6 md:p-8 rounded-3xl border-t-4 border-clay reveal-item delay-3">
+            <h2 class="text-2xl font-bold text-dark-zen mb-4 flex items-center">
+                <i class="fa-solid fa-person-shelter text-clay mr-3"></i> 行前重點提醒
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-tea mb-2 flex items-center"><i class="fa-solid fa-fire-burner mr-2"></i> 共同炊事裝備</h3>
+                    <ul id="gear-list" class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><input type="checkbox" class="form-checkbox text-tea rounded mr-2" id="gear1"><label for="gear1">邱家：電鍋、炒鍋、煎鍋</label></li>
+                        <li class="flex items-center"><input type="checkbox" class="form-checkbox text-tea rounded mr-2" id="gear2"><label for="gear2">羅家：泡茶用具、RO水、瓦斯爐</label></li>
+                        <li class="flex items-center"><input type="checkbox" class="form-checkbox text-tea rounded mr-2" id="gear3"><label for="gear3">各家：餐具、茶杯、茶點</label></li>
+                        <li class="flex items-center font-bold text-clay"><input type="checkbox" class="form-checkbox text-tea rounded mr-2" id="gear4"><label for="gear4">重點：每戶 1 公升水 (山上煮泡麵)</label></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-tea mb-2 flex items-center"><i class="fa-solid fa-person-hiking mr-2"></i> 登山必備 (兩日)</h3>
+                    <p class="text-sm text-gray-600 border-l-2 pl-3 border-matcha">
+                        登山杖、輕便雨衣、飲用水、簡易乾糧、<br>
+                        泡麵、小垃圾袋、羅家帶高山爐+輕量鍋具。
+                    </p>
+                    <div class="mt-3 text-xs bg-matcha/20 p-2 rounded text-tea font-medium">
+                        <i class="fa-solid fa-map-pin mr-1"></i> Day 2 羅家負責高山爐煮熱水
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="sticky top-0 z-40 bg-mist border-b border-tea/20 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-center space-x-2 p-2">
+            <button onclick="switchTab('day1')" id="btn-day1" class="tab-btn px-4 md:px-6 py-2 rounded-xl font-medium transition-all duration-300 bg-tea text-white shadow-md transform scale-105">
+                Day 1 <span class="text-xs block font-light opacity-80">車宿開張</span>
+            </button>
+            <button onclick="switchTab('day2')" id="btn-day2" class="tab-btn px-4 md:px-6 py-2 rounded-xl font-medium transition-all duration-300 text-gray-500 hover:bg-matcha/50">
+                Day 2 <span class="text-xs block font-light opacity-80">五連峰縱走</span>
+            </button>
+            <button onclick="switchTab('day3')" id="btn-day3" class="tab-btn px-4 md:px-6 py-2 rounded-xl font-medium transition-all duration-300 text-gray-500 hover:bg-matcha/50">
+                Day 3 <span class="text-xs block font-light opacity-80">古道喝茶</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-4 py-12 pb-24">
+
+        <div id="day1" class="tab-content active">
+            <h2 class="text-3xl font-bold text-tea mb-6 reveal-item">Day 1：山徑漫步與溫暖炊煮</h2>
+            <div class="relative border-l-4 border-matcha/50 ml-6 space-y-10 pl-8 pb-4">
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item">
+                    <span class="absolute -left-[42px] top-4 bg-tea text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"><i class="fa-solid fa-car"></i></span>
+                    <h3 class="text-lg font-bold">08:00 高雄出發</h3>
+                    <p class="text-gray-600 text-sm mt-1">國道 3 號往梅山，預計車程約 **2 小時 10 分**。</p>
+                </div>
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-1">
+                    <span class="absolute -left-[42px] top-4 bg-matcha text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-campground"></i></span>
+                    <h3 class="text-lg font-bold">10:30 抵達 57 秘密基地</h3>
+                    <p class="text-gray-600 text-sm mt-1">停好車，**會合**並整理車宿與登山裝備。</p>
+                </div>
+
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-2">
+                    <span class="absolute -left-[42px] top-4 bg-tea text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-seedling"></i></span>
+                    <h3 class="text-lg font-bold">11:00 仙人堀杉林步道</h3>
+                    <p class="text-gray-600 text-sm mt-1">輕鬆杉林與溪谷步道 (約 1 km / 30–40 分)。</p>
+                </div>
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-3">
+                    <span class="absolute -left-[42px] top-4 bg-clay text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-bag-shopping"></i></span>
+                    <h3 class="text-lg font-bold">12:00 太平老街午餐</h3>
+                    <p class="text-gray-600 text-sm mt-1">附近小吃、便當或超商簡單解決。</p>
+                </div>
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item">
+                    <span class="absolute -left-[42px] top-4 bg-matcha text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-bridge-suspension"></i></span>
+                    <h3 class="text-lg font-bold">14:00 雲之南道 ＋ 太平雲梯</h3>
+                    <p class="text-gray-600 text-sm mt-1">茶園與吊橋路線 (約 2 km / 1–2 小時)，記得買隔天早餐！</p>
+                </div>
+                
+                <div class="relative zen-card p-6 rounded-xl border-t-2 border-clay reveal-item delay-1">
+                    <span class="absolute -left-[42px] top-6 bg-clay text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-utensils"></i></span>
+                    <h3 class="text-xl font-bold text-clay">⛺ 營區晚餐 (18:30)</h3>
+                    <p class="text-sm font-bold mt-2">地點：57 秘密基地自己煮 (有雨棚水電)</p>
+                    <div class="bg-mist p-3 rounded-lg mt-2">
+                        <h4 class="font-bold text-tea text-sm mb-1">今晚菜單 (邱家主導)</h4>
+                        <ul class="text-sm text-gray-700 list-disc list-inside">
+                            <li>**主食：** 地瓜白飯、菇菇補湯</li>
+                            <li>**配菜：** 炒高麗菜、煎素魚、豆瓣豆腐</li>
+                        </ul>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3">飯後泡茶、聊天、散步拍夜景，車宿。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="day2" class="tab-content">
+            <h2 class="text-3xl font-bold text-tea mb-6 reveal-item">Day 2：五連峰縱走主攻日</h2>
+            <div class="relative border-l-4 border-matcha/50 ml-6 space-y-10 pl-8 pb-4">
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item">
+                    <span class="absolute -left-[42px] top-4 bg-clay text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">06:30</span>
+                    <h3 class="text-lg font-bold">早餐 & 裝備整備</h3>
+                    <p class="text-gray-600 text-sm mt-1">食用昨日採購的早餐，準備登山杖、水、糧食、泡麵、輕便雨衣等。</p>
+                </div>
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-1">
+                    <span class="absolute -left-[42px] top-4 bg-tea text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-map-location-dot"></i></span>
+                    <h3 class="text-lg font-bold">07:30 前往三元宮起登點</h3>
+                    <p class="text-gray-600 text-sm mt-1">從 57 秘密基地出發，**兩輛車**前往起登點。</p>
+                </div>
+
+                <div class="relative zen-card p-6 rounded-xl border-t-4 border-matcha reveal-item delay-2">
+                    <span class="absolute -left-[42px] top-6 bg-matcha text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-mountain"></i></span>
+                    <h3 class="text-xl font-bold text-tea mb-2">太平五連峰 O 型縱走</h3>
+                    <div class="text-sm text-gray-600 mb-3">
+                        <i class="fa-solid fa-shoe-prints mr-1"></i> **路線：** 三元宮 → 太平山 → 梨子腳山 → 馬鞍山 → 二尖山 → 大尖山 → 產道繞回。
+                    </div>
+                    <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-mono text-gray-500">
+                        <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> 10.5 km</span>
+                        <span><i class="fa-solid fa-arrow-trend-up mr-1"></i> 爬升 600 m</span>
+                        <span><i class="fa-regular fa-clock mr-1"></i> 6-7 小時</span>
+                    </div>
+                    
+                    <div class="bg-clay/10 p-3 rounded-lg mt-4">
+                        <h4 class="font-bold text-clay flex items-center text-sm"><i class="fa-solid fa-bowl-food mr-2"></i> 中午：山頂煮泡麵</h4>
+                        <p class="text-xs text-gray-700 mt-1">選安全平台或涼亭，用高山爐煮熱水，享受山景泡麵大餐！</p>
+                    </div>
+                </div>
+
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-3">
+                    <span class="absolute -left-[42px] top-4 bg-tea text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-hand-holding-hand"></i></span>
+                    <h3 class="text-lg font-bold">14:30 回到基地</h3>
+                    <p class="text-gray-600 text-sm mt-1">盥洗、休息，整理裝備。</p>
+                </div>
+                
+                <div class="relative zen-card p-6 rounded-xl border-t-2 border-clay reveal-item">
+                    <span class="absolute -left-[42px] top-6 bg-clay text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-book-reader"></i></span>
+                    <h3 class="text-xl font-bold text-clay">🖼️ 晚餐：空氣圖書館</h3>
+                    <p class="text-sm font-bold mt-2">地點：空氣圖書館 Air Library (營業到 18:00)</p>
+                    <div class="bg-mist p-3 rounded-lg mt-2 flex justify-between text-sm">
+                        <span><i class="fa-solid fa-mug-hot mr-2"></i> 點餐＋飲品，享受文青氛圍。</span>
+                        <span class="text-tea font-bold">別忘了買隔天早餐！</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3">飯後泡茶、聊天、散步拍夜景，車宿。</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="day3" class="tab-content">
+            <h2 class="text-3xl font-bold text-tea mb-6 reveal-item">Day 3：孝子古道與賦歸</h2>
+            <div class="relative border-l-4 border-matcha/50 ml-6 space-y-10 pl-8 pb-4">
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item">
+                    <span class="absolute -left-[42px] top-4 bg-clay text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">07:00</span>
+                    <h3 class="text-lg font-bold">早餐 & 裝備整備</h3>
+                    <p class="text-gray-600 text-sm mt-1">羅家準備茶葉，準備登山杖、水、簡易乾糧。</p>
+                </div>
+                
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-1">
+                    <span class="absolute -left-[42px] top-4 bg-tea text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-route"></i></span>
+                    <h3 class="text-lg font-bold">07:30 前往步道口</h3>
+                    <p class="text-gray-600 text-sm mt-1">從 57 秘密基地出發，前往孝子路步道口。</p>
+                </div>
+
+                <div class="relative zen-card p-6 rounded-xl border-t-4 border-matcha reveal-item delay-2">
+                    <span class="absolute -left-[42px] top-6 bg-matcha text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-hiking"></i></span>
+                    <h3 class="text-xl font-bold text-tea mb-2">孝子路 → 奉天岩 (原路折返)</h3>
+                    <div class="text-sm text-gray-600 mb-3">
+                        <i class="fa-solid fa-map-marker-alt mr-1"></i> **路線：** 步道口 → 孝思亭 → 大巃頂 → **奉天岩** → 原路返回。
+                    </div>
+                    <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-mono text-gray-500">
+                        <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> 5–5.5 km</span>
+                        <span><i class="fa-solid fa-arrow-trend-up mr-1"></i> 爬升 500 m</span>
+                        <span><i class="fa-regular fa-clock mr-1"></i> 4 小時</span>
+                    </div>
+                    <div class="bg-clay/10 p-3 rounded-lg mt-4">
+                        <h4 class="font-bold text-clay flex items-center text-sm"><i class="fa-solid fa-leaf mr-2"></i> 奉天岩喝茶</h4>
+                        <p class="text-xs text-gray-700 mt-1">羅家準備茶葉，在奉天岩享受山頂茶席。</p>
+                    </div>
+                </div>
+
+                <div class="relative zen-card p-4 rounded-xl reveal-item delay-3">
+                    <span class="absolute -left-[42px] top-4 bg-clay text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">12:00</span>
+                    <h3 class="text-lg font-bold">太平老街午餐</h3>
+                    <p class="text-gray-600 text-sm mt-1">下山後，在太平老街找地方享用午餐。</p>
+                </div>
+
+                <div class="relative zen-card p-4 rounded-xl reveal-item">
+                    <span class="absolute -left-[42px] top-4 bg-tea text-white w-8 h-8 rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-car-side"></i></span>
+                    <h3 class="text-lg font-bold">午餐後：收拾與返程</h3>
+                    <p class="text-gray-600 text-sm mt-1">回基地收拾車宿，開車回高雄，預計傍晚抵達。</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-dark-zen text-white/60 py-8 text-center text-sm">
+        <p>山徑、雲霧、與溫暖的炊煙 🍂</p>
+        <p class="mt-2 text-xs opacity-50">行程代碼：Zen & Tea Mountain 2025</p>
+    </footer>
+
+    <script>
+        function switchTab(dayId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none'; 
+            });
+
+            // Update Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-tea', 'text-white', 'shadow-md', 'transform', 'scale-105');
+                btn.classList.add('text-gray-500', 'hover:bg-matcha/50');
+            });
+
+            // Activate Target Content
+            const target = document.getElementById(dayId);
+            target.style.display = 'block';
+            
+            // Re-activate animations and visibility
+            setTimeout(() => {
+                target.classList.add('active');
+                
+                // Re-trigger reveal animations for items inside
+                target.querySelectorAll('.reveal-item').forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; 
+                    el.style.animation = null; 
+                });
+            }, 10);
+
+            // Activate Button
+            const activeBtn = document.getElementById('btn-' + dayId);
+            activeBtn.classList.remove('text-gray-500', 'hover:bg-matcha/50');
+            activeBtn.classList.add('bg-tea', 'text-white', 'shadow-md', 'transform', 'scale-105');
+        }
+
+        // Initialize Gear Checklist interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set Day 1 as active initially
+            switchTab('day1');
+
+            const checkboxes = document.querySelectorAll('#gear-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const label = e.target.nextElementSibling;
+                    if (e.target.checked) {
+                        label.style.textDecoration = 'line-through';
+                        label.style.opacity = '0.6';
+                    } else {
+                        label.style.textDecoration = 'none';
+                        label.style.opacity = '1';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
